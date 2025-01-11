@@ -1,17 +1,21 @@
+'use client'
+
+import { usePathname } from "next/navigation";
 import { AiOutlineAppstore } from "react-icons/ai"
 import { FiCompass } from "react-icons/fi"
 import { BsClockHistory } from "react-icons/bs"
 import { RiMagicLine } from "react-icons/ri"
 
-import NavItem from "./components/NavItem"
+import NavItem from "./components/navigation/NavItem"
+import NavFooter from "./components/navigation/NavFooter";
 
 const Navigation = () => {
+
+    const pathname = usePathname()
+
     return (
-        <nav className="w-64 bg-indigo-900 flex flex-col h-full fixed">
-            <div className="p-4 text-lg font-semibold border-b border-indigo-800">
-                Navigation
-            </div>
-            <ul className="flex-1 p-2 space-y-4">
+        <nav className={`w-64 bg-indigo-900 flex flex-col h-full fixed z-10 ${(pathname === "/register" || pathname === "/login") && "hidden"}`}>
+            <ul className="flex-1 p-2 space-y-4 mt-16">
                 <NavItem
                     Icon={RiMagicLine}
                     text="Generate"
@@ -33,9 +37,7 @@ const Navigation = () => {
                     href="/dashboard"
                 />
             </ul>
-            <div className="p-4 text-sm text-gray-400 border-t border-gray-700">
-                © 2025 My App
-            </div>
+            <NavFooter />
         </nav>
     );
 };

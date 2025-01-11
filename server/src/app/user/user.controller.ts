@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Delete, Param, UseGuards, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from './user.service';

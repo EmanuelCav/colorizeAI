@@ -11,7 +11,7 @@ import { AuthModule } from './app/auth/auth.module';
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-  }), MongooseModule.forRoot(process.env.DATABASE_URL), ImageModule, UserModule, AuthModule],
+  }), MongooseModule.forRoot(process.env.DATABASE_URL), AuthModule, ImageModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
