@@ -1,16 +1,27 @@
+import { Model } from 'mongoose';
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Types } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
+
 import { Image, ImageDocument } from './entities/image.entity';
-import { CreateImageHistoryDto } from './dto/create-image.dto';
+
 import { UpdateImageDto } from './dto/update-image.dto';
+import { Readable } from 'stream';
 
 @Injectable()
 export class ImageService {
-  constructor(@InjectModel(Image.name) private imageModel: Model<ImageDocument>) { }
+  constructor(@InjectModel(Image.name) private imageModel: Model<ImageDocument>, private configService: ConfigService) {
+    cloudinary.config({
+      cloud_name: this.configService.get<string>('CLOUDINARY_CLOUD_NAME'),
+      api_key: this.configService.get<string>('CLOUDINARY_API_KEY'),
+      api_secret: this.configService.get<string>('CLOUDINARY_API_SECRET'),
+    });
+  }
 
-  async findAll(): Promise<Image[]> {
-    return this.imageModel.find() 
+  async findAll(): Promise<ImageDocument[]> {
+    return this.imageModel.find()
   }
 
   async findOne(id: string): Promise<Image> {
@@ -21,9 +32,31 @@ export class ImageService {
     return item;
   }
 
-  async create(createItemDto: CreateImageHistoryDto): Promise<Image> {
-    const newItem = new this.imageModel(createItemDto);
-    return newItem.save();
+  async uploadImage(file: Express.Multer.File, input: string, user: Types.ObjectId): Promise<ImageDocument> {
+
+    const result_image: UploadApiResponse = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: this.configService.get<string>('CLOUDINARY_FOLDER') },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      )
+
+      const stream = Readable.from(file.buffer)
+      stream.pipe(uploadStream)
+
+    })
+
+    return new this.imageModel({
+      isPublic: true,
+      isSaved: false,
+      input,
+      user,
+      image: result_image.secure_url,
+      imageId: result_image.public_id
+    })
+
   }
 
   async update(id: string, updateItemDto: UpdateImageDto): Promise<Image> {

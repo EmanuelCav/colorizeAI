@@ -9,9 +9,12 @@ import { RiMagicLine } from "react-icons/ri"
 import NavItem from "./components/navigation/NavItem"
 import NavFooter from "./components/navigation/NavFooter";
 
+import { userStore } from "@/server/store/user.store";
+
 const Navigation = () => {
 
     const pathname = usePathname()
+    const user = userStore()
 
     return (
         <nav className={`w-64 bg-indigo-900 flex flex-col h-full fixed z-10 ${(pathname === "/register" || pathname === "/login") && "hidden"}`}>
@@ -29,12 +32,12 @@ const Navigation = () => {
                 <NavItem
                     Icon={BsClockHistory}
                     text="History"
-                    href="/history"
+                    href={user.isLoggedIn ? "/history" : "/register"}
                 />
                 <NavItem
                     Icon={AiOutlineAppstore}
                     text="Dashboard"
-                    href="/dashboard"
+                    href={user.isLoggedIn ? "/dashboard" : "/register"}
                 />
             </ul>
             <NavFooter />

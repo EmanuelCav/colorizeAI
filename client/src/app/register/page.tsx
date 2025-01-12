@@ -53,7 +53,7 @@ const Register = () => {
                 <InputForm autoComplete="off" autoFocus={false} label="Confirm Password" max={50} name="confirm" type="password" 
                 register={register("confirm", { required: true })} errors={errors.confirm!} />
                 <QuestionAuth action="Sign in" question="Have already an account?" route="/login" />
-                <Sumbit text="Sign up" />
+                <Sumbit text="Sign up" isDisabled={false} />
             </form>
         </div>
     )

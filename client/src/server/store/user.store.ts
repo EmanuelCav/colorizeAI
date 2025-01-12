@@ -13,6 +13,10 @@ export const userStore = create(
             authUser: (userData: IUserInfo) => set(() => ({
                 isLoggedIn: true,
                 user: userData
+            })),
+            logoutUser: () => set(() => ({
+                isLoggedIn: false,
+                user: {}
             }))
         }),
         {

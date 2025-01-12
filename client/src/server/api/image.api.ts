@@ -1,8 +1,10 @@
-import { IInput } from "@/interface/Image";
+import { api } from "./api";
+
+import { IImage, IInput } from "@/interface/Image";
 
 import { model_api, token_access } from "@/config/config";
 
-export const generateImageApi = async (data: IInput) => {
+export const generateImageApi = async (data: IInput): Promise<Blob> => {
 
     const response = await fetch(`${model_api}`,
         {
@@ -15,7 +17,47 @@ export const generateImageApi = async (data: IInput) => {
         }
     );
 
+    if (!response.ok) {
+        throw new Error("Error al generar una imagen")
+    }
+
     const result = await response.blob();
 
     return result;
 }
+
+export const exploreImagesApi = async (): Promise<IImage[]> => {
+
+    const response = await fetch(`${api}/images/explore`)
+
+    if (!response.ok) {
+        throw new Error("Error al generar una imagen")
+    }
+
+    const data = await response.json()
+
+    return data
+
+}
+
+export const saveImageApi = async (imageData: FormData): Promise<IImage> => {
+
+    const response = await fetch(`${api}/images/explore`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(imageData)
+    })
+
+    if(!response.ok) {
+        throw new Error("Error to save an image")
+    }
+
+    const data = await response.json()
+
+    return data
+
+}
+

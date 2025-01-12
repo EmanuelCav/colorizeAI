@@ -23,6 +23,12 @@ export class Image {
     @Prop({ type: Boolean })
     isPublic: boolean;
 
+    @Prop({ type: String, trim: true })
+    image: string;
+
+    @Prop({ type: String, trim: true })
+    imageId: string;
+
     @Prop({ default: Date.now })
     createdAt: Date;
 

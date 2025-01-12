@@ -49,7 +49,7 @@ const Login = () => {
                 <InputForm autoComplete="off" autoFocus={false} label="Password" max={50} name="password" type="password"
                     errors={errors.password!} register={register("password", { required: true })} />
                 <QuestionAuth action="Sign up" question="Don't have an account?" route="/register" />
-                <Sumbit text="Sign in" />
+                <Sumbit text="Sign in" isDisabled={false} />
             </form>
         </div>
     )

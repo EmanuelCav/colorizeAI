@@ -1,19 +1,19 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile, UseGuards, Req } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+
 import { ImageService } from './image.service';
+
 import { CreateImageHistoryDto } from './dto/create-image.dto';
 
-import { HfInference } from '@huggingface/inference'
+import { JwtAuthGuard } from '../auth/auth';
 
 @Controller('images')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) {}
+  constructor(private readonly imageService: ImageService) { }
 
-  hf = new HfInference(process.env.TOKEN_INTERFACE)
-
-  @Get()
+  @Get("explore")
   findAll() {
     return this.imageService.findAll()
-     
   }
 
   @Get(':id')
@@ -21,9 +21,11 @@ export class ImageController {
     return this.imageService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createItemDto: CreateImageHistoryDto) {
-    return this.imageService.create(createItemDto);
+  @UseInterceptors(FileInterceptor('file'))
+  async create(@Req() req: any, @Body("inputs") inputs: string, @UploadedFile() file: Express.Multer.File) {
+    return this.imageService.uploadImage(file, inputs, req.user.id.id);
   }
 
   @Put(':id')

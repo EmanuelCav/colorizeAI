@@ -2,6 +2,7 @@ export interface IStoreUser {
     isLoggedIn: boolean;
     user: IUserInfo;
     authUser: (userData: IUserInfo) => void;
+    logoutUser: () => void;
 }
 
 export interface IUserInfo {

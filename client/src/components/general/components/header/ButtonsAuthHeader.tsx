@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { IoMdSettings } from "react-icons/io";
 
 import { ButtonsHeaderPropsType } from "@/types/props.types"
 
@@ -7,8 +8,7 @@ const ButtonsAuthHeader = ({ router, pathname, isLoggedIn }: ButtonsHeaderPropsT
         <div className="flex items-center justify-center">
             {
                 isLoggedIn ? (
-                    <>
-                    </>
+                    <IoMdSettings size={28} color="#ffffff" />
                 ) : (
                     <>
                         {

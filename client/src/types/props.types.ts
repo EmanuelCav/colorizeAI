@@ -9,12 +9,12 @@ export type NavItemPropsType = {
 }
 
 export type InputFormPropsType = {
-    type: HTMLInputTypeAttribute; 
-    label: string; 
-    name: string; 
+    type: HTMLInputTypeAttribute;
+    label: string;
+    name: string;
     errors: FieldError;
     register: UseFormRegisterReturn<any>;
-    autoComplete: HTMLInputAutoCompleteAttribute; 
+    autoComplete: HTMLInputAutoCompleteAttribute;
     autoFocus: boolean;
     max: number;
 }
@@ -29,4 +29,9 @@ export type ButtonsHeaderPropsType = {
     pathname: string;
     router: AppRouterInstance;
     isLoggedIn: boolean;
+}
+
+export type SumbitPropsType = {
+    text: string;
+    isDisabled: boolean;
 }
