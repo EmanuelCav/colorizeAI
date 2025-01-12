@@ -1,14 +1,17 @@
 import Image from "next/image"
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
+import Link from "next/link"
 
-const Logo = ({ router }: { router: AppRouterInstance }) => {
+const Logo = () => {
   return (
-    <Image 
+    <Link href="/generate" className="flex justify-center items-center">
+      <Image
         alt="Logo Colorize Ai"
-        src="/next.svg"
-        width={50}
-        height={50}
-    />
+        src="/logo.png"
+        width={48}
+        height={48}
+      />
+      <p className="text-white font-semibold text-md">Colorize AI</p>
+    </Link>
   )
 }
 

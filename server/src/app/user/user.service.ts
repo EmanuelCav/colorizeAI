@@ -17,10 +17,16 @@ export class UserService {
     const user = await this.userModel.findOne({ email: registerData.email })
 
     if (user) {
-      throw new BadRequestException('Ya existe un usuario con esa dirección de correo electrónico')
+      throw new BadRequestException('A user with that email address already exists')
     }
 
-    const hashedPassword = await hashPassword(registerData.password)
+    const userName = await this.userModel.findOne({ username: registerData.username })
+
+    if (userName) {
+      throw new BadRequestException('A user with that username already exists')
+    }
+
+    const hashedPassword = await hashPassword(registerData.password)    
 
     const newUser = new this.userModel({
       username: registerData.username,
@@ -28,20 +34,20 @@ export class UserService {
       password: hashedPassword
     })
 
-    return newUser.save();
+    return await newUser.save();
   }
 
   async login(loginData: LoginDto): Promise<UserDocument | null> {
     const user = await this.userModel.findOne({ email: loginData.email })
 
     if (!user) {
-      throw new BadRequestException('Los campos no coinciden')
+      throw new BadRequestException('Fields do not match')
     }
 
     const verifyPassword = await comparePassword(loginData.password, user.password)
 
     if (!verifyPassword) {
-      throw new BadRequestException('Los campos no coinciden')
+      throw new BadRequestException('Fields do not match')
     }
 
     return user

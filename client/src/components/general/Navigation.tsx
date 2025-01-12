@@ -15,7 +15,7 @@ const Navigation = () => {
 
     return (
         <nav className={`w-64 bg-indigo-900 flex flex-col h-full fixed z-10 ${(pathname === "/register" || pathname === "/login") && "hidden"}`}>
-            <ul className="flex-1 p-2 space-y-4 mt-16">
+            <ul className="flex-1 p-2 space-y-4 mt-20">
                 <NavItem
                     Icon={RiMagicLine}
                     text="Generate"

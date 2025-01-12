@@ -13,7 +13,7 @@ export class LoginDto {
 export class RegisterDto {
     @IsNotEmpty({ message: "There are empty fields. Please complete" })
     @IsString()
-    @Matches(/^[a-zA-Z0-9]+$/, { message: 'The username can only contain letters and numbers' })
+    @Matches(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ]+$/, { message: 'The username can only contain letters and numbers' })
     @MinLength(3, { message: 'Username must be at least 3 characters' })
     @MaxLength(20, { message: 'Username cannot exceed 20 characters' })
     username: string;

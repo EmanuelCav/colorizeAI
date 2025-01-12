@@ -1,5 +1,6 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute } from "react";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 export type NavItemPropsType = {
     Icon: any;
@@ -9,9 +10,10 @@ export type NavItemPropsType = {
 
 export type InputFormPropsType = {
     type: HTMLInputTypeAttribute; 
-    id: string; 
+    label: string; 
     name: string; 
-    register: string; 
+    errors: FieldError;
+    register: UseFormRegisterReturn<any>;
     autoComplete: HTMLInputAutoCompleteAttribute; 
     autoFocus: boolean;
     max: number;
@@ -25,5 +27,6 @@ export type QuestionAuthPropsType = {
 
 export type ButtonsHeaderPropsType = {
     pathname: string;
-    router: AppRouterInstance
+    router: AppRouterInstance;
+    isLoggedIn: boolean;
 }
