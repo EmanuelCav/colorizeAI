@@ -42,12 +42,13 @@ export class ImageController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async save(@Req() req: any, @Param('id') id: string) {
-    const image = await this.imageService.saveImage(id, req.user.id.id);
+  async save(@Req() req: any, @Body("save") save: boolean, @Param('id') id: string) {
+    
+    const image = await this.imageService.saveImage(save, id, req.user.id.id);
 
     return {
       image,
-      message: "Image saved successfully"
+      message: save ? "Image saved successfully" : "Image removed successfully"
     }
     
   }

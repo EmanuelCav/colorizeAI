@@ -71,7 +71,7 @@ export class ImageService {
 
   }
 
-  async saveImage(id: string, userId: Types.ObjectId): Promise<ImageDocument> {
+  async saveImage(save: boolean, id: string, userId: Types.ObjectId): Promise<ImageDocument> {
 
     const image = await this.imageModel.findById(id)
 
@@ -84,7 +84,7 @@ export class ImageService {
     }
 
     const imageUpadted = await this.imageModel.findByIdAndUpdate(id, {
-      isSaved: true
+      isSaved: save
     })
 
     return imageUpadted

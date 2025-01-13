@@ -24,7 +24,7 @@ const ImageGenerated = ({ imageUrl, handleGenerateAnother, isLoggedIn, imageId, 
 
     try {
 
-      const data = await saveImageGeneratedApi(imageId, token)
+      const data = await saveImageGeneratedApi({ save: true }, imageId, token)
       getImage(data.image)
       setIsSaved(true)
 

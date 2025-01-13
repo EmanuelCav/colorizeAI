@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 
-import ImageExplore from "@/components/explore/ImageExplore"
+import ImageHistory from "@/components/history/ImageHistory"
 
 import { imageStore } from "@/server/store/image.store"
 import { historyImagesApi } from "@/server/api/image.api"
@@ -20,14 +20,14 @@ const History = () => {
                 image.showImages(data)
             }
         })()
-    }, [user.user.token])
+    }, [])
 
     return (
-        <div className="ml-0 lg:ml-64 flex flex-col justify-center items-center">
-            <div className="mt-20">
+        <div className="ml-0 lg:ml-64 flex flex-col justify-center items-center p-2">
+            <div className="mt-20 max-w-lg w-full">
                 {
                     image.images.length > 0 && image.images.map((img) => {
-                        return <ImageExplore img={img} key={img._id} />
+                        return <ImageHistory img={img} getImage={image.getImage} updateImage={image.updateImage} token={user.user.token!} key={img._id} />
                     })
                 }
             </div>

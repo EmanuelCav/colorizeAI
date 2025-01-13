@@ -19,8 +19,8 @@ const Explore = () => {
     }, [])
 
     return (
-        <div className="ml-0 lg:ml-64 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-            <div className="mt-20">
+        <div className="ml-0 lg:ml-64 flex justify-around items-center p-2">
+            <div className="mt-20 flex w-full justify-around items-center flex-wrap">
                 {
                     image.images.length > 0 && image.images.map((img) => {
                         return <ImageExplore img={img} key={img._id} />

@@ -9,6 +9,8 @@ export interface IStoreImage {
     image: IImage;
     showImages: (images: IImage[]) => void;
     getImage: (image: IImage) => void;
+    quitImage: (image: IImage) => void;
+    updateImage: (image: IImage) => void;
 }
 
 export interface IImage {
@@ -28,4 +30,8 @@ export interface IImage {
 export interface IMessage {
     message: string;
     image: IImage
+}
+
+export interface ISave {
+    save: boolean;
 }

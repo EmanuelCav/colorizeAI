@@ -15,6 +15,12 @@ export const imageStore = create(
             })),
             getImage: (image: IImage) => set(() => ({
                 image
+            })),
+            quitImage: (image: IImage) => set((partial) => ({
+                images: partial.images.filter(i => i._id !== image._id)
+            })),
+            updateImage: (image: IImage) => set((partial) => ({
+                images: partial.images.map(i => i._id === image._id ? image : i)
             }))
         }),
         {

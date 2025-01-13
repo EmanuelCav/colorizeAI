@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-import { IImage, IInput, IMessage } from "@/interface/Image";
+import { IImage, IInput, IMessage, ISave } from "@/interface/Image";
 
 import { model_api, token_access } from "@/config/config";
 
@@ -96,13 +96,15 @@ export const saveImageApi = async (imageData: FormData, token: string): Promise<
 
 }
 
-export const saveImageGeneratedApi = async (id: string, token: string): Promise<IMessage> => {
+export const saveImageGeneratedApi = async (imageData: ISave, id: string, token: string): Promise<IMessage> => {
 
     const response = await fetch(`${api}/images/${id}`, {
         method: 'PATCH',
         headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
-        }
+        },
+        body: JSON.stringify(imageData)
     })
 
     if (!response.ok) {
