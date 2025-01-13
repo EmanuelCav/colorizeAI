@@ -24,7 +24,7 @@ export class ImageController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  async create(@Req() req: any, @Body("inputs") inputs: string, @UploadedFile() file: Express.Multer.File) {
+  async create(@Req() req: any, @Body() body: any, @Body("inputs") inputs: string, @UploadedFile() file: Express.Multer.File) {
     return this.imageService.uploadImage(file, inputs, req.user.id.id);
   }
 

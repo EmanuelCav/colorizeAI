@@ -1,14 +1,13 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
+import { Readable } from 'stream';
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 
 import { Image, ImageDocument } from './entities/image.entity';
 
 import { UpdateImageDto } from './dto/update-image.dto';
-import { Readable } from 'stream';
 
 @Injectable()
 export class ImageService {
@@ -48,7 +47,7 @@ export class ImageService {
 
     })
 
-    return new this.imageModel({
+    const newImage = new this.imageModel({
       isPublic: true,
       isSaved: false,
       input,
@@ -56,6 +55,8 @@ export class ImageService {
       image: result_image.secure_url,
       imageId: result_image.public_id
     })
+
+    return await newImage.save()
 
   }
 

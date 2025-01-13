@@ -9,13 +9,13 @@ export const generateImageApi = async (data: IInput): Promise<Blob> => {
     const response = await fetch(`${model_api}`,
         {
             headers: {
-                Authorization: `Bearer ${token_access}`,
+                'Authorization': `Bearer ${token_access}`,
                 "Content-Type": "application/json",
             },
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         }
-    );
+    )
 
     if (!response.ok) {
         throw new Error("Error al generar una imagen")
@@ -40,15 +40,14 @@ export const exploreImagesApi = async (): Promise<IImage[]> => {
 
 }
 
-export const saveImageApi = async (imageData: FormData): Promise<IImage> => {
+export const saveImageApi = async (imageData: FormData, token: string): Promise<IImage> => {
 
-    const response = await fetch(`${api}/images/explore`, {
+    const response = await fetch(`${api}/images`, {
         method: 'POST',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(imageData)
+        body: imageData
     })
 
     if(!response.ok) {

@@ -15,7 +15,7 @@ import { FormGeneratePropsType } from '@/types/generate.types';
 
 import { inputSchema } from '@/schema/image.schema';
 
-const FormGenerate = ({ setImageUrl, isLoggedIn, getImage }: FormGeneratePropsType) => {
+const FormGenerate = ({ setImageUrl, isLoggedIn, getImage, token }: FormGeneratePropsType) => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(inputSchema)
@@ -24,8 +24,11 @@ const FormGenerate = ({ setImageUrl, isLoggedIn, getImage }: FormGeneratePropsTy
   const [showWarming, setShowWarming] = useState<boolean>(false);
 
   const handleGenerate = async (data: IInput) => {
+
     const image = await generateImageApi(data)
     const blobUrl = URL.createObjectURL(image)
+
+    const input = "Coloring Book, A black and white drawing of a " + data.inputs
 
     setImageUrl(blobUrl)
 
@@ -35,9 +38,9 @@ const FormGenerate = ({ setImageUrl, isLoggedIn, getImage }: FormGeneratePropsTy
 
       const formData = new FormData()
       formData.append("file", image)
-      formData.append("inputs", data.inputs)
+      formData.append("inputs", input)
 
-      const imageData = await saveImageApi(formData)
+      const imageData = await saveImageApi(formData, token)
       getImage(imageData)
 
     }

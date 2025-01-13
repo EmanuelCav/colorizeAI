@@ -1,11 +1,11 @@
 'use client'
 
-import Image from "next/image"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 import FormGenerate from "@/components/generate/FormGenerate"
 import TitleGenerate from "@/components/generate/TitleGenerate"
+import ImageGenerated from "@/components/generate/ImageGenerated"
 
 import { userStore } from "@/server/store/user.store"
 import { imageStore } from "@/server/store/image.store"
@@ -20,10 +20,7 @@ const Generate = () => {
     const [imageUrl, setImageUrl] = useState<string | null>(null)
 
     const handleGenerateAnother = () => {
-
-        const hasSeenWarming = localStorage.getItem("hasSeenGenerate");
-
-        if (!hasSeenWarming) {
+        if (!user.isLoggedIn) {
             router.push("/register")
             return
         }
@@ -32,21 +29,12 @@ const Generate = () => {
     }
 
     return (
-        <div className="h-screen ml-64 justify-center items-center flex flex-col">
+        <div className="h-screen ml-0 lg:ml-64 justify-center items-center flex flex-col p-2 md:p-0">
             {
-                imageUrl ?
-                    <div className="max-w-lg">
-                        <Image src="/logo.png" alt="image-generated" width={600} height={600} />
-                        <button
-                            onClick={handleGenerateAnother}
-                            className="mt-4 w-full bg-indigo-500 text-white px-4 py-2 text-lg rounded-md hover:bg-indigo-600 transition duration-200 font-semibold"
-                        >
-                            Generar otra imagen
-                        </button>
-                    </div> :
+                imageUrl ? <ImageGenerated imageUrl={imageUrl} handleGenerateAnother={handleGenerateAnother} /> :
                     <>
                         <TitleGenerate />
-                        <FormGenerate setImageUrl={setImageUrl} isLoggedIn={user.isLoggedIn} getImage={image.getImage} />
+                        <FormGenerate setImageUrl={setImageUrl} isLoggedIn={user.isLoggedIn} getImage={image.getImage} token={user.user.token!} />
                     </>
             }
         </div>

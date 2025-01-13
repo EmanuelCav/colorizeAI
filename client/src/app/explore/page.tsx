@@ -2,6 +2,8 @@
 
 import { useEffect } from "react"
 
+import ImageExplore from "@/components/explore/ImageExplore"
+
 import { imageStore } from "@/server/store/image.store"
 import { exploreImagesApi } from "@/server/api/image.api"
 
@@ -17,7 +19,13 @@ const Explore = () => {
     }, [])
 
     return (
-        <div>Explore</div>
+        <div className="ml-0 lg:ml-64 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+            {
+                image.images.map((img) => {
+                    return <ImageExplore img={img} key={img._id} />
+                })
+            }
+        </div>
     )
 }
 
