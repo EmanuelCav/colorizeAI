@@ -6,7 +6,7 @@ const Sumbit = ({ text, isDisabled }: SumbitPropsType) => {
             disabled={isDisabled}
             type="submit"
             className={`${isDisabled ? "bg-gray-300" : "bg-indigo-500"} mt-4 w-full text-white py-2 px-4 rounded-md 
-            ${!isDisabled && "hover:bg-indigo-600"} transition duration-200 font-semibold`}
+            ${!isDisabled && "hover:bg-indigo-600"} transition duration-200 font-semibold focus:outline-none`}
         >
             {text}
         </button>

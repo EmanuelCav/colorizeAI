@@ -20,11 +20,13 @@ const Explore = () => {
 
     return (
         <div className="ml-0 lg:ml-64 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-            {
-                image.images.map((img) => {
-                    return <ImageExplore img={img} key={img._id} />
-                })
-            }
+            <div className="mt-20">
+                {
+                    image.images.length > 0 && image.images.map((img) => {
+                        return <ImageExplore img={img} key={img._id} />
+                    })
+                }
+            </div>
         </div>
     )
 }

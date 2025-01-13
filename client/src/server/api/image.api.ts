@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-import { IImage, IInput } from "@/interface/Image";
+import { IImage, IInput, IMessage } from "@/interface/Image";
 
 import { model_api, token_access } from "@/config/config";
 
@@ -40,6 +40,42 @@ export const exploreImagesApi = async (): Promise<IImage[]> => {
 
 }
 
+export const historyImagesApi = async (token: string): Promise<IImage[]> => {
+
+    const response = await fetch(`${api}/images/history`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if (!response.ok) {
+        throw new Error("Error al generar una imagen")
+    }
+
+    const data = await response.json()
+
+    return data
+
+}
+
+export const dashboardImagesApi = async (token: string): Promise<IImage[]> => {
+
+    const response = await fetch(`${api}/images/dashboard`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    if (!response.ok) {
+        throw new Error("Error al generar una imagen")
+    }
+
+    const data = await response.json()
+
+    return data
+
+}
+
 export const saveImageApi = async (imageData: FormData, token: string): Promise<IImage> => {
 
     const response = await fetch(`${api}/images`, {
@@ -50,7 +86,26 @@ export const saveImageApi = async (imageData: FormData, token: string): Promise<
         body: imageData
     })
 
-    if(!response.ok) {
+    if (!response.ok) {
+        throw new Error("Error to save an image")
+    }
+
+    const data = await response.json()
+
+    return data
+
+}
+
+export const saveImageGeneratedApi = async (id: string, token: string): Promise<IMessage> => {
+
+    const response = await fetch(`${api}/images/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+
+    if (!response.ok) {
         throw new Error("Error to save an image")
     }
 

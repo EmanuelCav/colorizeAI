@@ -25,10 +25,12 @@ const FormGenerate = ({ setImageUrl, isLoggedIn, getImage, token }: FormGenerate
 
   const handleGenerate = async (data: IInput) => {
 
-    const image = await generateImageApi(data)
-    const blobUrl = URL.createObjectURL(image)
+    let dataUpdated: IInput = {
+      inputs: `Coloring Book, A black and white drawing of a ${data.inputs}`
+    }
 
-    const input = "Coloring Book, A black and white drawing of a " + data.inputs
+    const image = await generateImageApi(dataUpdated)
+    const blobUrl = URL.createObjectURL(image)
 
     setImageUrl(blobUrl)
 
@@ -38,7 +40,7 @@ const FormGenerate = ({ setImageUrl, isLoggedIn, getImage, token }: FormGenerate
 
       const formData = new FormData()
       formData.append("file", image)
-      formData.append("inputs", input)
+      formData.append("inputs", dataUpdated.inputs)
 
       const imageData = await saveImageApi(formData, token)
       getImage(imageData)

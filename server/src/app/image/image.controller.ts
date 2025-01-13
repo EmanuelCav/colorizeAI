@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile, UseGuards, Req, Patch } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ImageService } from './image.service';
@@ -12,8 +12,20 @@ export class ImageController {
   constructor(private readonly imageService: ImageService) { }
 
   @Get("explore")
-  findAll() {
+  explore() {
     return this.imageService.findAll()
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("history")
+  history(@Req() req: any) {
+    return this.imageService.findHistory(req.user.id.id)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("dashboard")
+  dashboard(@Req() req: any) {
+    return this.imageService.findDashboard(req.user.id.id)
   }
 
   @Get(':id')
@@ -24,8 +36,20 @@ export class ImageController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  async create(@Req() req: any, @Body() body: any, @Body("inputs") inputs: string, @UploadedFile() file: Express.Multer.File) {
+  async create(@Req() req: any, @Body("inputs") inputs: string, @UploadedFile() file: Express.Multer.File) {
     return this.imageService.uploadImage(file, inputs, req.user.id.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  async save(@Req() req: any, @Param('id') id: string) {
+    const image = await this.imageService.saveImage(id, req.user.id.id);
+
+    return {
+      image,
+      message: "Image saved successfully"
+    }
+    
   }
 
   @Put(':id')

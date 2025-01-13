@@ -1,7 +1,7 @@
 import { Model, Types } from 'mongoose';
 import { Readable } from 'stream';
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
 
@@ -20,7 +20,18 @@ export class ImageService {
   }
 
   async findAll(): Promise<ImageDocument[]> {
-    return this.imageModel.find()
+    return this.imageModel.find({ isSaved: true, isPublic: true }).populate({
+      path: "user",
+      select: "-password"
+    })
+  }
+
+  async findHistory(id: Types.ObjectId): Promise<ImageDocument[]> {
+    return this.imageModel.find({ user: id })
+  }
+
+  async findDashboard(id: Types.ObjectId): Promise<ImageDocument[]> {
+    return this.imageModel.find({ user: id, isSaved: true })
   }
 
   async findOne(id: string): Promise<Image> {
@@ -58,6 +69,25 @@ export class ImageService {
 
     return await newImage.save()
 
+  }
+
+  async saveImage(id: string, userId: Types.ObjectId): Promise<ImageDocument> {
+
+    const image = await this.imageModel.findById(id)
+
+    if (!image) {
+      throw new BadRequestException('Image does not exists')
+    }
+
+    if (image.user !== userId) {
+      throw new UnauthorizedException('You cannot save this image')
+    }
+
+    const imageUpadted = await this.imageModel.findByIdAndUpdate(id, {
+      isSaved: true
+    })
+
+    return imageUpadted
   }
 
   async update(id: string, updateItemDto: UpdateImageDto): Promise<Image> {

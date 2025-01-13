@@ -9,5 +9,16 @@ export type FormGeneratePropsType = {
 
 export type ImageGeneratedPropsType = {
     imageUrl: string;
+    isLoggedIn: boolean;
     handleGenerateAnother: () => void;
+    imageId: string;
+    token: string;
+    getImage: (image: IImage) => void;
+}
+
+export type ActionsImagePropsType = {
+    handleDownload: () => void;
+    handleSave: () => void;
+    isSaved: boolean;
+    isLoggedIn: boolean;
 }

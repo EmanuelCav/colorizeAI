@@ -24,3 +24,8 @@ export interface IImage {
     createdAt?: string;
     updatedAt?: string;
 }
+
+export interface IMessage {
+    message: string;
+    image: IImage
+}
