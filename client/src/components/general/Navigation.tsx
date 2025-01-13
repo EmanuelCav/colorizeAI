@@ -17,7 +17,7 @@ const Navigation = () => {
     const user = userStore()
 
     return (
-        <nav className={`w-64 bg-indigo-900 hidden lg:flex flex-col h-full fixed z-10 ${(pathname === "/register" || pathname === "/login") && "hidden"}`}>
+        <nav className={`w-64 bg-indigo-900 hidden lg:flex flex-col h-full fixed z-10 ${(pathname === "/register" || pathname === "/login") && "lg:hidden"}`}>
             <ul className="flex-1 p-2 space-y-4 mt-20">
                 <NavItem
                     Icon={RiMagicLine}

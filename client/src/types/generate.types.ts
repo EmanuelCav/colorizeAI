@@ -5,6 +5,7 @@ export type FormGeneratePropsType = {
     setImageUrl: (imageUrl: string | null) => void;
     getImage: (image: IImage) => void;
     token: string;
+    setIsLoading: (isLoading: boolean) => void;
 }
 
 export type ImageGeneratedPropsType = {

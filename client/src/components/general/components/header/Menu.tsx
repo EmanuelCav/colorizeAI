@@ -33,7 +33,7 @@ const Menu = ({ setIsMenu, isLoggedIn, logout, router }: MenuPropsType) => {
                     !isLoggedIn && <NavMenu Icon={BiLogIn} setIsMenu={setIsMenu} href="/login" title="Log in" />
                 }
                 {
-                    !isLoggedIn && <NavMenu Icon={IoPersonAddSharp} setIsMenu={setIsMenu} href="/register" title="Sign uup" />
+                    !isLoggedIn && <NavMenu Icon={IoPersonAddSharp} setIsMenu={setIsMenu} href="/register" title="Sign up" />
                 }
                 <div
                     className="flex items-center px-6 py-4 text-white text-lg hover:bg-indigo-800 cursor-pointer"

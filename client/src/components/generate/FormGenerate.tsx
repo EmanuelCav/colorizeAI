@@ -15,7 +15,7 @@ import { FormGeneratePropsType } from '@/types/generate.types';
 
 import { inputSchema } from '@/schema/image.schema';
 
-const FormGenerate = ({ setImageUrl, isLoggedIn, getImage, token }: FormGeneratePropsType) => {
+const FormGenerate = ({ setImageUrl, isLoggedIn, getImage, token, setIsLoading }: FormGeneratePropsType) => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(inputSchema)
@@ -25,29 +25,40 @@ const FormGenerate = ({ setImageUrl, isLoggedIn, getImage, token }: FormGenerate
 
   const handleGenerate = async (data: IInput) => {
 
-    let dataUpdated: IInput = {
-      inputs: `Coloring Book, A black and white drawing of a ${data.inputs}`
+    setIsLoading(true)
+
+    try {
+
+      let dataUpdated: IInput = {
+        inputs: `Coloring Book, A black and white drawing of a ${data.inputs}`
+      }
+
+      const image = await generateImageApi(dataUpdated)
+      const blobUrl = URL.createObjectURL(image)
+
+      setImageUrl(blobUrl)
+
+      if (!isLoggedIn) {
+        localStorage.setItem("hasSeenGenerate", "true")
+      } else {
+
+        const formData = new FormData()
+        formData.append("file", image)
+        formData.append("inputs", dataUpdated.inputs)
+
+        const imageData = await saveImageApi(formData, token)
+        getImage(imageData)
+
+      }
+
+      reset()
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false)
     }
 
-    const image = await generateImageApi(dataUpdated)
-    const blobUrl = URL.createObjectURL(image)
-
-    setImageUrl(blobUrl)
-
-    if (!isLoggedIn) {
-      localStorage.setItem("hasSeenGenerate", "true")
-    } else {
-
-      const formData = new FormData()
-      formData.append("file", image)
-      formData.append("inputs", dataUpdated.inputs)
-
-      const imageData = await saveImageApi(formData, token)
-      getImage(imageData)
-
-    }
-
-    reset()
   }
 
   useEffect(() => {
