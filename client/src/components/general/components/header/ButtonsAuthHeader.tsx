@@ -1,16 +1,24 @@
 import Link from "next/link"
-import { IoMdSettings } from "react-icons/io";
+import { IoMdLogOut } from "react-icons/io";
+import { MdMenu } from "react-icons/md";
 
 import { ButtonsHeaderPropsType } from "@/types/props.types"
 
-const ButtonsAuthHeader = ({ router, pathname, isLoggedIn }: ButtonsHeaderPropsType) => {
+const ButtonsAuthHeader = ({ router, pathname, isLoggedIn, setIsMenu, isMenu, logout }: ButtonsHeaderPropsType) => {
+
+    const logoutAction = () => {
+        logout()
+        router.push("/generate")
+    }
+
     return (
         <div className="flex items-center justify-center">
             {
                 isLoggedIn ? (
-                    <IoMdSettings size={28} color="#ffffff" />
+                    <IoMdLogOut size={32} color="#ffffff" onClick={logoutAction}
+                    className="hidden lg:block mx-2 cursor-pointer hover:bg-indigo-800 active:bg-indigo-900" />
                 ) : (
-                    <>
+                    <div className="hidden lg:block">
                         {
                             pathname !== "/login" &&
                             <Link href="/login" className="text-white font-semibod text-xl mx-6 hover:text-gray-300 active:text-white cursor-pointer select-none">Log in</Link>
@@ -22,9 +30,11 @@ const ButtonsAuthHeader = ({ router, pathname, isLoggedIn }: ButtonsHeaderPropsT
                                 Sign up
                             </button>
                         }
-                    </>
+                    </div>
                 )
             }
+            <MdMenu size={32} color="#ffffff" onClick={() => setIsMenu(!isMenu)}
+            className="block lg:hidden cursor-pointer mx-2 hover:bg-indigo-800 active:bg-indigo-900" />
         </div>
     )
 }

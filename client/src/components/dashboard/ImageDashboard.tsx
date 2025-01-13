@@ -36,7 +36,7 @@ const ImageDashboard = ({ img, token, quitImage }: ImageDashboardPropsType) => {
 
     return (
         <div className="relative mt-2 h-full flex flex-col bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
-            <div className="h-72 w-72 w-full relative">
+            <div className="h-72 w-72 relative">
                 <Image
                     src={img.image!}
                     alt="image"

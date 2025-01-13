@@ -23,11 +23,13 @@ const Navigation = () => {
                     Icon={RiMagicLine}
                     text="Generate"
                     href="/generate"
+                    pathname={pathname}
                 />
                 <NavItem
                     Icon={FiCompass}
                     text="Explore"
                     href="/explore"
+                    pathname={pathname}
                 />
                 {
                     user.isLoggedIn &&
@@ -35,6 +37,7 @@ const Navigation = () => {
                         Icon={BsClockHistory}
                         text="History"
                         href="/history"
+                        pathname={pathname}
                     />
                 }
                 {
@@ -43,6 +46,7 @@ const Navigation = () => {
                         Icon={AiOutlineAppstore}
                         text="Dashboard"
                         href="/dashboard"
+                        pathname={pathname}
                     />
                 }
             </ul>

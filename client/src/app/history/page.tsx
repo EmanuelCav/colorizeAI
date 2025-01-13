@@ -20,7 +20,7 @@ const History = () => {
                 image.showImages(data)
             }
         })()
-    }, [])
+    }, [image.images])
 
     return (
         <div className="ml-0 lg:ml-64 flex flex-col justify-center items-center p-2">
