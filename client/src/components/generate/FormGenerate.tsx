@@ -29,7 +29,7 @@ const FormGenerate = ({ setImageUrl, isLoggedIn, getImage, token, setIsLoading }
 
     try {
 
-      let dataUpdated: IInput = {
+      const dataUpdated: IInput = {
         inputs: `Coloring Book, A black and white drawing of a ${data.inputs}`
       }
 
