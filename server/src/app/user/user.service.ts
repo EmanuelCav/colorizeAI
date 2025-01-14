@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as nodemailer from 'nodemailer';
 
 import { User, UserDocument } from './entities/user.entity';
 
@@ -10,7 +11,33 @@ import { comparePassword, hashPassword } from './utils/encrypt';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
+
+  private transporter;
+
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
+    this.transporter = nodemailer.createTransport({
+      host: process.env.MY_HOST,
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.MY_MAIL,
+        pass: process.env.MY_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    })
+  }
+
+  async welcome() {
+    await this.transporter.sendMail({
+      from: `'EMAILS' ${process.env.MY_MAIL}`,
+      to: `${process.env.MY_MAIL}`,
+      subject: "Colorize AI: Alguién visitó la página",
+      html: "Alguién visitó la página",
+    });
+
+  }
 
   async register(registerData: RegisterDto): Promise<UserDocument> {
 
@@ -26,7 +53,7 @@ export class UserService {
       throw new BadRequestException('A user with that username already exists')
     }
 
-    const hashedPassword = await hashPassword(registerData.password)    
+    const hashedPassword = await hashPassword(registerData.password)
 
     const newUser = new this.userModel({
       username: registerData.username,
@@ -52,10 +79,6 @@ export class UserService {
 
     return user
 
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().select('-password')
   }
 
 }

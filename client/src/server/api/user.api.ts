@@ -2,6 +2,20 @@ import { api } from "./api"
 
 import { ILogin, IRegister, IUserInfo } from "@/interface/User"
 
+export const messageApi = async (): Promise<string> => {
+
+    const response = await fetch(api + "/users/welcome")
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error("Error to get message")
+    }
+
+    return data.message
+
+}
+
 export const registerApi = async (userData: IRegister): Promise<IUserInfo> => {
 
     const response = await fetch(api + "/users/register", {

@@ -1,15 +1,20 @@
-import { Controller, Post, Body, Get, UseGuards, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from './user.service';
-
-import { JwtAuthGuard } from '../auth/auth';
 
 import { LoginDto, RegisterDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService, private jwtService: JwtService) { }
+
+  @Get('welcome')
+  async welcomeMessage() {
+    await this.userService.welcome()
+
+    return { message: 'Email sent successfully!' }
+  }
 
   @Post('register')
   async register(@Body() registerDto: RegisterDto) {
@@ -37,9 +42,4 @@ export class UserController {
 
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  async users() {
-    return this.userService.findAll()
-  }
 }
