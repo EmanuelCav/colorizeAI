@@ -1,3 +1,5 @@
+import { RedirectType } from "next/navigation";
+
 import { api } from "./api";
 
 import { IImage, IInput, IMessage, ISave } from "@/interface/Image";
@@ -18,7 +20,7 @@ export const generateImageApi = async (data: IInput): Promise<Blob> => {
     )
 
     if (!response.ok) {
-        throw new Error("Error al generar una imagen")
+        throw new Error("Error to generate an image")
     }
 
     const result = await response.blob();
@@ -31,7 +33,7 @@ export const exploreImagesApi = async (): Promise<IImage[]> => {
     const response = await fetch(`${api}/images/explore`)
 
     if (!response.ok) {
-        throw new Error("Error al generar una imagen")
+        throw new Error("Error to get images")
     }
 
     const data = await response.json()
@@ -49,7 +51,7 @@ export const historyImagesApi = async (token: string): Promise<IImage[]> => {
     })
 
     if (!response.ok) {
-        throw new Error("Error al generar una imagen")
+        throw new Error("Error to get images")
     }
 
     const data = await response.json()
@@ -67,7 +69,7 @@ export const dashboardImagesApi = async (token: string): Promise<IImage[]> => {
     })
 
     if (!response.ok) {
-        throw new Error("Error al generar una imagen")
+        throw new Error("Error to get images")
     }
 
     const data = await response.json()
@@ -117,3 +119,16 @@ export const saveImageGeneratedApi = async (imageData: ISave, id: string, token:
 
 }
 
+export const getImageApi = async (id: string, redirect: (url: string, type?: RedirectType) => never): Promise<IImage> => {
+
+    const response = await fetch(`${api}/images/${id}`)
+
+    if (!response.ok) {
+        redirect("/explore")
+    }
+
+    const data = await response.json()
+
+    return data
+
+}

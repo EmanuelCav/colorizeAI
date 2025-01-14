@@ -1,9 +1,7 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile, UseGuards, Req, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile, UseGuards, Req, Patch } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ImageService } from './image.service';
-
-import { CreateImageHistoryDto } from './dto/create-image.dto';
 
 import { JwtAuthGuard } from '../auth/auth';
 
@@ -30,7 +28,7 @@ export class ImageController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.imageService.findOne(id);
+    return this.imageService.findImage(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -51,15 +49,5 @@ export class ImageController {
       message: save ? "Image saved successfully" : "Image removed successfully"
     }
     
-  }
-
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateItemDto: CreateImageHistoryDto) {
-    return this.imageService.update(id, updateItemDto);
-  }
-
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.imageService.delete(id);
   }
 }

@@ -8,12 +8,6 @@ export class Image {
     @Prop({ required: true, type: String, trim: true })
     input: string;
 
-    @Prop({ type: String, trim: true })
-    title: string;
-
-    @Prop({ type: String, trim: true })
-    description: string;
-
     @Prop({ type: Types.ObjectId, ref: 'User' })
     user: Types.ObjectId;
 

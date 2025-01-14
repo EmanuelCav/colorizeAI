@@ -7,8 +7,6 @@ import { ConfigService } from '@nestjs/config';
 
 import { Image, ImageDocument } from './entities/image.entity';
 
-import { UpdateImageDto } from './dto/update-image.dto';
-
 @Injectable()
 export class ImageService {
   constructor(@InjectModel(Image.name) private imageModel: Model<ImageDocument>, private configService: ConfigService) {
@@ -34,12 +32,17 @@ export class ImageService {
     return this.imageModel.find({ user: id, isSaved: true })
   }
 
-  async findOne(id: string): Promise<Image> {
-    const item = await this.imageModel.findById(id).exec();
-    if (!item) {
-      throw new NotFoundException(`Item with ID ${id} not found`);
+  async findImage(id: string): Promise<ImageDocument> {
+    const image = await this.imageModel.findById(id).populate({
+      path: "user",
+      select: "-password"
+    });
+
+    if (!image) {
+      throw new NotFoundException(`Image does not exists`);
     }
-    return item;
+
+    return image;
   }
 
   async uploadImage(file: Express.Multer.File, input: string, user: Types.ObjectId): Promise<ImageDocument> {
@@ -85,26 +88,10 @@ export class ImageService {
 
     const imageUpadted = await this.imageModel.findByIdAndUpdate(id, {
       isSaved: save
+    }, {
+      new: true
     })
 
     return imageUpadted
-  }
-
-  async update(id: string, updateItemDto: UpdateImageDto): Promise<Image> {
-    const updatedItem = await this.imageModel
-      .findByIdAndUpdate(id, updateItemDto, { new: true })
-      .exec();
-    if (!updatedItem) {
-      throw new NotFoundException(`Item with ID ${id} not found`);
-    }
-    return updatedItem;
-  }
-
-  async delete(id: string): Promise<Image> {
-    const deletedItem = await this.imageModel.findByIdAndDelete(id).exec();
-    if (!deletedItem) {
-      throw new NotFoundException(`Item with ID ${id} not found`);
-    }
-    return deletedItem;
   }
 }

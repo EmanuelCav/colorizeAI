@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 import ImageExplore from "@/components/explore/ImageExplore"
 import Loading from "@/components/general/Loading"
@@ -11,6 +12,7 @@ import { exploreImagesApi } from "@/server/api/image.api"
 const Explore = () => {
 
     const image = imageStore()
+    const router = useRouter()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -34,14 +36,14 @@ const Explore = () => {
     }, [])
 
     return (
-        <div className="ml-0 lg:ml-64 flex justify-around relative items-center p-2">
+        <div className="ml-0 lg:ml-64 flex justify-around items-center p-2">
             {
                 isLoading && <Loading text="Loading..." />
             }
             <div className="mt-20 flex w-full justify-around items-center flex-wrap">
                 {
                     image.images.length > 0 && image.images.map((img) => {
-                        return <ImageExplore img={img} key={img._id} />
+                        return <ImageExplore img={img} router={router} key={img._id} />
                     })
                 }
             </div>

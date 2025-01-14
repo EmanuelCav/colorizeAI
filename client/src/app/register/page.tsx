@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from 'next/navigation';
@@ -25,7 +25,7 @@ const Register = () => {
 
     const router = useRouter()
 
-    const { authUser } = userStore()
+    const { authUser, isLoggedIn } = userStore()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -47,6 +47,12 @@ const Register = () => {
         }
 
     }
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            router.push("/generate")
+        }
+    }, [])
 
     return (
         <div className="w-full h-screen justify-center items-center flex flex-col">
