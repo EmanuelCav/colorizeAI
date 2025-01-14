@@ -35,13 +35,15 @@ const Menu = ({ setIsMenu, isLoggedIn, logout, router }: MenuPropsType) => {
                 {
                     !isLoggedIn && <NavMenu Icon={IoPersonAddSharp} setIsMenu={setIsMenu} href="/register" title="Sign up" />
                 }
-                <div
-                    className="flex items-center px-6 py-4 text-white text-lg hover:bg-indigo-800 cursor-pointer"
-                    onClick={logoutAction}
-                >
-                    <IoMdLogOut size={24} className="mr-4" />
-                    Logout
-                </div>
+                {
+                    isLoggedIn && <div
+                        className="flex items-center px-6 py-4 text-white text-lg hover:bg-indigo-800 cursor-pointer"
+                        onClick={logoutAction}
+                    >
+                        <IoMdLogOut size={24} className="mr-4" />
+                        Logout
+                    </div>
+                }
             </nav>
         </div>
     );

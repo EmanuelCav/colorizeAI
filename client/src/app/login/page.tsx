@@ -16,6 +16,7 @@ import { userStore } from '@/server/store/user.store';
 import { loginApi } from '@/server/api/user.api';
 
 import { loginSchema } from '@/schema/user.schema';
+import { dangerMessage } from '@/utils/message';
 
 const Login = () => {
 
@@ -41,7 +42,7 @@ const Login = () => {
             reset()
 
         } catch (error) {
-            console.log(error);
+            dangerMessage(error as string)
         } finally {
             setIsLoading(false)
         }

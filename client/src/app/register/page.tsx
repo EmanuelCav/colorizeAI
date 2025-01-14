@@ -17,6 +17,8 @@ import { registerApi } from '@/server/api/user.api';
 
 import { registerSchema } from '@/schema/user.schema';
 
+import { dangerMessage } from '@/utils/message';
+
 const Register = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
@@ -41,7 +43,7 @@ const Register = () => {
             reset()
 
         } catch (error) {
-            console.log(error);
+            dangerMessage(error as string)
         } finally {
             setIsLoading(false)
         }

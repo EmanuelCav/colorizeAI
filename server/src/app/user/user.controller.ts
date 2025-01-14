@@ -14,18 +14,12 @@ export class UserController {
   @Post('register')
   async register(@Body() registerDto: RegisterDto) {
 
-    try {
+    const user = await this.userService.register(registerDto)
+    const token = this.jwtService.sign({ id: user._id })
 
-      const user = await this.userService.register(registerDto)
-      const token = this.jwtService.sign({ id: user._id })
-
-      return {
-        user,
-        token
-      }
-
-    } catch (error) {
-      throw new BadRequestException('Error to register: ', error.response.data.message)
+    return {
+      user,
+      token
     }
 
   }
@@ -33,13 +27,13 @@ export class UserController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
 
-      const user = await this.userService.login(loginDto)
-      const token = this.jwtService.sign({ id: user._id })
+    const user = await this.userService.login(loginDto)
+    const token = this.jwtService.sign({ id: user._id })
 
-      return {
-        user,
-        token
-      }
+    return {
+      user,
+      token
+    }
 
   }
 

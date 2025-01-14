@@ -37,7 +37,7 @@ const Generate = () => {
                     handleGenerateAnother={handleGenerateAnother} isLoggedIn={user.isLoggedIn} getImage={image.getImage} /> :
                     <>
                         {
-                            isLoading ? <Loading text="Generating..." /> :
+                            isLoading ? <Loading text="Generating... It may take time" /> :
                                 <>
                                     <TitleGenerate />
                                     <FormGenerate setImageUrl={setImageUrl} isLoggedIn={user.isLoggedIn}

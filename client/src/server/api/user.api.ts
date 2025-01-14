@@ -16,7 +16,7 @@ export const registerApi = async (userData: IRegister): Promise<IUserInfo> => {
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message[0]
     }
 
     return {
@@ -40,7 +40,7 @@ export const loginApi = async (userData: ILogin): Promise<IUserInfo> => {
     const data = await response.json()
 
     if (!response.ok) {
-        throw new Error(data)
+        throw data.message
     }
 
     return {

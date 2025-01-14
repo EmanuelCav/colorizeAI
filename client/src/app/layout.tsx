@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./globals.css";
 
 import Header from "@/components/general/Header";
@@ -25,6 +27,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.className} antialiased`}
       >
+        <ToastContainer limit={1} />
         <Header />
         <Navigation />
         {children}
